@@ -16,11 +16,14 @@ typedef char board[boardsize][boardsize];
 
 void iniboard(board Board);
 void outboard(board Board);
-void shipplacement(board uFriendly);
-void UserChoice();
+void shipplacement(board uFriendly, int &j, int &i);
+void UserChoice(int &j, int &i);
 
 int main()
 {
+	static int i = 0;
+	static int j = 0;
+
 	board uFriendly;
 	board uEnemy;
 	board cFriendly;
@@ -34,7 +37,7 @@ int main()
 	outboard(uFriendly);
 	outboard(uEnemy);
 
-	shipplacement(uFriendly);
+	shipplacement(uFriendly, i, j);
 
 	return 0;
 }
@@ -63,31 +66,64 @@ void outboard(board Board)
 		cout << endl;
 	}
 }
-void shipplacement(board uFriendly)
+void shipplacement(board uFriendly, int &j, int &i)
 {
-	int Shipsize = 0;
+	int Shipsize = 0, choice;
+	int y = 0;
 	for (int c = 1; c < 6; c++)
 	{
-		switch (c)
+		int boat = 1;
+		switch (boat)
 		{
 		case 1:
 			Shipsize = 5;
+			break;
 		case 2:
 			Shipsize = 4;
+			break;
 		case 3:
 			Shipsize = 3;
+			break;
 		case 4:
 			Shipsize = 3;
+			break;
 		case 5:
 			Shipsize = 2;
+			break;
+		}
+		UserChoice(j, i);
+		cout << "Do you want the ship to be placed up(1), down(2), right(3), or left(4) from current point?\n";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			int test = j - Shipsize + 1;
+			if (test < 0)
+			{
+				cout << "Boat went out of bounds, retry\n";
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				uFriendly[j][i] = 'x';
+				j = j - 1;
+			}
+			break;
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				cout << uFriendly[i][j];
+			}
+			cout << endl;
 		}
 	}
-	UserChoice();
-	cout << "Do you want the ship to be placed up, down, right, or left from current point?\n";
 }
-void UserChoice()
+void UserChoice(int &j, int &i)
 {
-	int i, j;
+	i = 0;
+	j = 0;
 	do
 	{
 		cout << "Enter an x coordinate 1-10:" << endl;
