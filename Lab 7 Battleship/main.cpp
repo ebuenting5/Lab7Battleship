@@ -19,7 +19,7 @@ void outboard(board Board);
 void shipplacement(board uFriendly, int &j, int &i);
 void UserChoice(int &j, int &i);
 
-int main()
+int main(int &choice, int &Shipsize)
 {
 	
 	int i = 0;
@@ -49,7 +49,7 @@ void iniboard(board Board)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			Board[i][j][1] = '~';
+			Board[i][j][0] = '~';
 		}
 	}
 }
@@ -62,7 +62,7 @@ void outboard(board Board)
 		cout << setw(3) << i + 1 << " ";
 		for (int j = 0; j < 10; j++)
 		{
-			cout << Board[i][j][1] << " ";
+			cout << Board[i][j][0] << " ";
 		}
 		cout << endl;
 	}
@@ -70,7 +70,6 @@ void outboard(board Board)
 void shipplacement(board uFriendly, int &j, int &i)
 {
 	int Shipsize = 0, choice;
-	int y = 0;
 	for (int c = 1; c < 6; c++)
 	{
 		switch (c)
@@ -106,7 +105,7 @@ void shipplacement(board uFriendly, int &j, int &i)
 			}
 			for (int a = 0; a < Shipsize; a++)
 			{
-				uFriendly[j][i][1] = 'x';
+				uFriendly[j][i][0] = '#';
 				j = j - 1;
 			}
 			break;
@@ -119,9 +118,36 @@ void shipplacement(board uFriendly, int &j, int &i)
 			}
 			for (int a = 0; a < Shipsize; a++)
 			{
-				uFriendly[j][i][1] = 'x';
+				uFriendly[j][i][0] = '#';
 				j = j + 1;
 			}
+			break;
+		case 3:
+			test = i + Shipsize - 1;
+			if (test > 9)
+			{
+				cout << "Boat went out of bounds, retry\n";
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				uFriendly[j][i][0] = '#';
+				i = i + 1;
+			}
+			break;
+		case 4:
+			test = i - Shipsize + 1;
+			if (test < 0)
+			{
+				cout << "Boat went out of bounds, retry\n";
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				uFriendly[j][i][0] = '#';
+				i = i - 1;
+			}
+			break;
 		}
 		outboard(uFriendly);
 	}
