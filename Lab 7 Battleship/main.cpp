@@ -3,20 +3,12 @@
 
 using namespace std;
 
-enum direction
-{	
-	up = 1,
-	down = 2,
-	right = 3,
-	left = 4,
-};
-
 const int boardsize = 10;
 typedef char board[boardsize][boardsize][2];
 
 void iniboard(board Board);
 void outboard(board Board);
-void shipplacement(board uFriendly, int &j, int &i);
+void Ushipplacement(board uFriendly, int &j, int &i);
 void UserChoice(int &j, int &i);
 
 int main(int &choice, int &Shipsize)
@@ -38,7 +30,7 @@ int main(int &choice, int &Shipsize)
 	outboard(uFriendly);
 	outboard(uEnemy);
 
-	shipplacement(uFriendly, i, j);
+	Ushipplacement(uFriendly, i, j);
 
 	return 0;
 }
@@ -67,32 +59,102 @@ void outboard(board Board)
 		cout << endl;
 	}
 }
-void shipplacement(board uFriendly, int &j, int &i)
+void Ushipplacement(board uFriendly, int &j, int &i)
 {
-	int Shipsize = 0, choice;
+	int Shipsize = 0, choice, Shiptype;
 	for (int c = 1; c < 6; c++)
 	{
+		bool print = true;
 		switch (c)
 		{
 		case 1:
 			Shipsize = 5;
+			Shiptype = 5;
+			cout << "You are placing Carrier (5 spaces)\n";
 			break;
 		case 2:
 			Shipsize = 4;
+			Shiptype = 4;
+			cout << "You are placing Battleship (4 spaces)\n";
 			break;
 		case 3:
 			Shipsize = 3;
+			Shiptype = 3;
+			cout << "You are placing Cruiser (3 spaces)\n";
 			break;
 		case 4:
 			Shipsize = 3;
+			Shiptype = 2;
+			cout << "You are placing Submarine (3 spaces)\n";
 			break;
 		case 5:
 			Shipsize = 2;
+			Shiptype = 1;
+			cout << "You are placing Destroyer (2 spaces)\n";
 			break;
 		}
 		UserChoice(j, i);
 		cout << "Do you want the ship to be placed up(1), down(2), right(3), or left(4) from current point?\n";
 		cin >> choice;
+		int y = j;
+		int x = i;
+		switch (choice)
+		{
+		case 1:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (uFriendly[y][x][0] == '#')
+				{
+					cout << "Ships overlap, reselect coordinates\n";
+					c--;
+					print = false;
+					break;
+				}
+				y = y - 1;
+			}
+			break;
+		case 2:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (uFriendly[y][x][0] == '#')
+				{
+					cout << "Ships overlap, reselect coordinates\n";
+					c--;
+					print = false;
+					break;
+				}
+				y = y + 1;
+			}
+			break;
+		case 3:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (uFriendly[y][x][0] == '#')
+				{
+					cout << "Ships overlap, reselect coordinates\n";
+					c--;
+					print = false;
+					break;
+				}
+				x = x + 1;
+			}
+			break;
+		case 4:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (uFriendly[y][x][0] == '#')
+				{
+					cout << "Ships overlap, reselect coordinates\n";
+					c--;
+					print = false;
+					break;
+				}
+				x = x - 1;
+			}
+			break;
+		}
+		if (!print)
+			continue;
 		int test = 0;
 		switch (choice)
 		{
@@ -101,6 +163,7 @@ void shipplacement(board uFriendly, int &j, int &i)
 			if (test < 0)
 			{
 				cout << "Boat went out of bounds, retry\n";
+				c--;
 				continue;
 			}
 			for (int a = 0; a < Shipsize; a++)
