@@ -10,6 +10,7 @@ void iniboard(board Board);
 void outboard(board Board);
 void Ushipplacement(board uFriendly, int &j, int &i);
 void UserChoice(int &j, int &i);
+void cShipplacement(board cFriendly);
 
 int main(int &choice, int &Shipsize)
 {
@@ -31,6 +32,7 @@ int main(int &choice, int &Shipsize)
 	outboard(uEnemy);
 
 	Ushipplacement(uFriendly, i, j);
+	cShipplacement(cFriendly);
 
 	return 0;
 }
@@ -169,6 +171,7 @@ void Ushipplacement(board uFriendly, int &j, int &i)
 			for (int a = 0; a < Shipsize; a++)
 			{
 				uFriendly[j][i][0] = '#';
+				uFriendly[j][i][1] = Shiptype;
 				j = j - 1;
 			}
 			break;
@@ -177,11 +180,13 @@ void Ushipplacement(board uFriendly, int &j, int &i)
 			if (test > 9)
 			{
 				cout << "Boat went out of bounds, retry\n";
+				c--;
 				continue;
 			}
 			for (int a = 0; a < Shipsize; a++)
 			{
 				uFriendly[j][i][0] = '#';
+				uFriendly[j][i][1] = Shiptype;
 				j = j + 1;
 			}
 			break;
@@ -190,11 +195,13 @@ void Ushipplacement(board uFriendly, int &j, int &i)
 			if (test > 9)
 			{
 				cout << "Boat went out of bounds, retry\n";
+				c--;
 				continue;
 			}
 			for (int a = 0; a < Shipsize; a++)
 			{
 				uFriendly[j][i][0] = '#';
+				uFriendly[j][i][1] = Shiptype;
 				i = i + 1;
 			}
 			break;
@@ -203,11 +210,13 @@ void Ushipplacement(board uFriendly, int &j, int &i)
 			if (test < 0)
 			{
 				cout << "Boat went out of bounds, retry\n";
+				c--;
 				continue;
 			}
 			for (int a = 0; a < Shipsize; a++)
 			{
 				uFriendly[j][i][0] = '#';
+				uFriendly[j][i][1] = Shiptype;
 				i = i - 1;
 			}
 			break;
@@ -238,4 +247,156 @@ void UserChoice(int &j, int &i)
 		}
 		j = j - 1;
 	} while (i > 10 || i < 0 || j > 10 || j < 0);
+}
+
+void cShipplacement(board cFriendly)
+{
+	int Shipsize = 0, choice, Shiptype, i, j;
+	srand(time(NULL));
+	for (int c = 1; c < 6; c++)
+	{
+		bool print = true;
+		switch (c)
+		{
+		case 1:
+			Shipsize = 5;
+			Shiptype = 5;
+			break;
+		case 2:
+			Shipsize = 4;
+			Shiptype = 4;
+			break;
+		case 3:
+			Shipsize = 3;
+			Shiptype = 3;
+			break;
+		case 4:
+			Shipsize = 3;
+			Shiptype = 2;
+			break;
+		case 5:
+			Shipsize = 2;
+			Shiptype = 1;
+			break;
+		}
+		i = 1 + (rand() % 10);
+		j = 1 + (rand() % 10);
+		choice = 1 + (rand() % 4);
+		int y = j;
+		int x = i;
+		switch (choice)
+		{
+		case 1:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (cFriendly[y][x][0] == '#')
+				{
+					c--;
+					print = false;
+					break;
+				}
+				y = y - 1;
+			}
+			break;
+		case 2:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (cFriendly[y][x][0] == '#')
+				{
+					c--;
+					print = false;
+					break;
+				}
+				y = y + 1;
+			}
+			break;
+		case 3:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (cFriendly[y][x][0] == '#')
+				{
+					c--;
+					print = false;
+					break;
+				}
+				x = x + 1;
+			}
+			break;
+		case 4:
+			for (int a = 0; a < Shipsize; a++)
+			{
+				if (cFriendly[y][x][0] == '#')
+				{
+					c--;
+					print = false;
+					break;
+				}
+				x = x - 1;
+			}
+			break;
+		}
+		if (!print)
+			continue;
+		int test = 0;
+		switch (choice)
+		{
+		case 1:
+			test = j - Shipsize + 1;
+			if (test < 0)
+			{
+				c--;
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				cFriendly[j][i][0] = '#';
+				cFriendly[j][i][1] = Shiptype;
+				j = j - 1;
+			}
+			break;
+		case 2:
+			test = j + Shipsize - 1;
+			if (test > 9)
+			{
+				c--;
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				cFriendly[j][i][0] = '#';
+				cFriendly[j][i][1] = Shiptype;
+				j = j + 1;
+			}
+			break;
+		case 3:
+			test = i + Shipsize - 1;
+			if (test > 9)
+			{
+				c--;
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				cFriendly[j][i][0] = '#';
+				cFriendly[j][i][1] = Shiptype;
+				i = i + 1;
+			}
+			break;
+		case 4:
+			test = i - Shipsize + 1;
+			if (test < 0)
+			{
+				c--;
+				continue;
+			}
+			for (int a = 0; a < Shipsize; a++)
+			{
+				cFriendly[j][i][0] = '#';
+				cFriendly[j][i][1] = Shiptype;
+				i = i - 1;
+			}
+			break;
+		}
+	}
+	outboard(cFriendly);
 }
