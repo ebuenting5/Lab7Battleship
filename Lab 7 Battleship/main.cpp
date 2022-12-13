@@ -1,3 +1,10 @@
+/*
+* Ethan Buenting
+* C++ 2022
+* Due 12/12/2022
+* Lab 7 Battleship
+* Description: Make a battleship game
+*/
 #include <iostream>
 #include <iomanip>
 
@@ -5,11 +12,20 @@ using namespace std;
 
 const int boardsize = 10;
 typedef char board[boardsize][boardsize][2];
-
+//precondition: Nothing is initialized
+//postcondition: boards are initialized
 void iniboard(board Board);
+//precondition: boards are not output or updated for player to see
+//postcondition: boards are output for player to see
 void outboard(board Board);
+//precondition: all boards are just set to water
+//postcondition: user has placed their boats
 void Ushipplacement(board uFriendly, int &j, int &i);
+//precondition: user has no starting point for their boat
+//postcondition: boat has a designated starting point within bounds
 void UserChoice(int &j, int &i);
+//precondition: only user has placed boats
+//postcondition: computer has placed boats
 void cShipplacement(board cFriendly);
 
 int main(int &choice, int &Shipsize)
@@ -18,21 +34,21 @@ int main(int &choice, int &Shipsize)
 	int i = 0;
 	int j = 0;
 
-	board uFriendly;
-	board uEnemy;
-	board cFriendly;
-	board cEnemy;
+	board uFriendly; //user's ship board
+	board uEnemy; //user's attack board
+	board cFriendly; //computer's ship board
+	board cEnemy; //computer's attack board
 
-	iniboard(uFriendly);
-	iniboard(uEnemy);
-	iniboard(cFriendly);
-	iniboard(cEnemy);
+	iniboard(uFriendly); //initialize users's ship board
+	iniboard(uEnemy); //initialize user's attack board
+	iniboard(cFriendly); //initialize computer's ship board;
+	iniboard(cEnemy); //initialize computer's attack board;
 	
-	outboard(uFriendly);
-	outboard(uEnemy);
+	outboard(uFriendly); //output user's ship board
+	outboard(uEnemy); //output user's attack board
 
-	Ushipplacement(uFriendly, i, j);
-	cShipplacement(cFriendly);
+	Ushipplacement(uFriendly, i, j); //user places their boats
+	cShipplacement(cFriendly); //computer places its boats
 
 	return 0;
 }
@@ -279,8 +295,8 @@ void cShipplacement(board cFriendly)
 			Shiptype = 1;
 			break;
 		}
-		i = 1 + (rand() % 10);
-		j = 1 + (rand() % 10);
+		i = rand() % 10;
+		j = rand() % 10;
 		choice = 1 + (rand() % 4);
 		int y = j;
 		int x = i;
